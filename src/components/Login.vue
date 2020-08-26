@@ -4,18 +4,24 @@
       <div class="yybox">
         <div>
           <img :src="logo" class="yy-logo" />
-          <span class="yy-title2">无人小区管理系统</span>
+          <span class="yy-title2">农业气象专家系统</span>
         </div>
         <div class="yy-input-box">
           <i class="layui-icon-username layui-icon yy-icon"></i>
-          <input type="text" class="yy-input" v-model="username" placeholder="用户名" />
+          <input type="text" class="yy-input" v-model="Account" placeholder="用户名" />
         </div>
         <div class="yy-input-box">
           <i class="layui-icon-password layui-icon yy-icon"></i>
-          <input type="password" class="yy-input" v-model="password" placeholder="密码" />
+          <input type="password" class="yy-input" v-model="Password" placeholder="密码" />
         </div>
         <div class="yy-btn-box">
-          <button class="yy-btn" @click="submitContent">登录</button>
+          <button class="yy-btn" @click="login">登录</button>
+        </div>
+        <div
+          style="display: flex;width: 287px;margin-left: 19px;justify-content: space-between;margin-top: 10px;cursor: pointer;"
+        >
+          <div @click="forget">找回密码</div>
+          <div @click="register">注册</div>
         </div>
       </div>
     </div>
@@ -26,9 +32,8 @@
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-      APPID: "2036458777",
+      Account: "royalblue4169e1@163.com",
+      Password: "bbbb1111",
       tenData: "",
       logo: require("../assets/logo.png"),
       styleObject: {
@@ -36,88 +41,77 @@ export default {
         width: "100%",
         height: "80vh",
         paddingTop: "20vh",
-        backgroundSize: "100%"
+        backgroundSize: "100%",
       },
       backgroundDiv: {
-        backgroundImage:
-          "url(" + require("../assets/images/cool-background2.png") + ")",
+        backgroundColor: "white",
         backgroundRepeat: "no-repeat",
-        backgroundSize: "100% 100%"
-      }
+        backgroundSize: "100% 100%",
+      },
     };
   },
-  created() {
-    if (window.TencentCaptcha == undefined) {
-      let script = document.createElement("script");
-      let head = document.getElementsByTagName("head")[0];
-      script.type = "text/javascript";
-      script.charset = "UTF-8";
-      script.src = "https://ssl.captcha.qq.com/TCaptcha.js";
-      head.appendChild(script);
-    }
-  },
-  mounted() {
-    // this.login();
-  },
+  // mounted(){
+  //   this.login();
+  // },
   methods: {
-    submitContent() {
-      var that = this;
-      if (this.tenData === "") {
-        let cap = new window.TencentCaptcha(this.APPID, function(res) {
-          console.log(res);
-          if (res.ret == 0) {
-            that.tenData = res;
-            that.login();
-          }
-        });
-        console.log(cap);
-        cap.show();
-      } else {
-        that.login();
-      }
-    },
     login() {
       var that = this;
       var data = {
-        username: this.username,
-        password: this.password,
-        ticket:this.tenData.ticket,
-        randstr:this.tenData.randstr,
+        Email: this.Account,
+        Password: this.Password,
       };
       console.log(data);
-      this.$axios.supManLogin(data).then(res => {
-        if (res.code == 200) {
-          const token = res.data.token;
-          localStorage.setItem("token", token);
-          var userMessage={
-            id:res.data.id,
-            isSuper:res.data.isSuper,
-            username:res.data.username,
-          }
-          localStorage.setItem("userMessage",JSON.stringify(userMessage))
-          this.$message({
-            message: "登录成功,即将跳转到首页",
-            type: "success"
-          });
-          setTimeout(function() {
-            that.$router.replace({
-              path: "/HomePage"
+      this.$axios
+        .expertLogin(data)
+        .then((res) => {
+          if (res.code == 200) {
+            localStorage.setItem("token", res.token);
+            localStorage.setItem("userMessage", JSON.stringify(res.data));
+            this.$message({
+              message: "登录成功,即将跳转到首页",
+              type: "success",
             });
-          }, 2000);
-        } else {
+            setTimeout(function () {
+              that.$router.replace({
+                path: "/HomePage",
+              });
+            }, 2000);
+          } else {
+            console.log(res);
+            this.$message.error(res.msg);
+          }
           console.log(res);
-          this.$message.error(res.msg);
-        }
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            this.$alert(error.response.data.msg);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
+    },
+    forget() {
+      this.$router.push({
+        path: "/forget",
       });
-    }
-  }
+    },
+    register() {
+      this.$router.push({
+        path: "/register",
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
 .yy-logo {
   position: relative;
-  top: -5px;
+  top: 9px;
   left: -4px;
   height: 40px;
   width: 40px;

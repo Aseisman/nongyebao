@@ -1,60 +1,53 @@
 import { request } from './index'
 
 export default {
-    //登录
-    supManLogin: (data) => {
-        return request("admin/login", "get", data)
+    //专家登录
+    expertLogin: (data) => {
+        return request('/api/expert/login', 'post', data)
     },
-    //首页
-    home: () => {
-        return request("admin/index", "get", "")
+    //专家忘记密码
+    forget: (data) => {
+        return request('/api/expert/forget/password', 'post', data)
     },
-    //管理员列表
-    adminList: (data) => {
-        return request("admin/administrator", 'get', data)
+    //专家注册
+    register: (data) => {
+        return request('/api/expert/register', 'post', data)
     },
-    //添加管理员
-    adminAdd: (data) => {
-        return request("admin/administrator", 'post', data)
+    //获取验证码
+    verify: (data) => {
+        return request('/api/email/verify', 'post', data)
     },
-    //删除
-    adminDel: (data) => {
-        return request("admin/administrator", 'delete', data)
+    //获取专家个人信息
+    info: () => {
+        return request('/api/expert/info', 'get', "")
     },
-    //设置/取消超级管理员
-    adminSet: (data) => {
-        return request("admin/administrator", 'put', data)
+    //更新信息
+    updateMessage: (data) => {
+        return request('/api/expert/update/info', 'post', data)
     },
     //修改密码
-    password: (data) => {
-        return request("admin/password", 'put', data)
+    updatePassword: (data) => {
+        return request('/api/expert/update/password', 'post', data)
     },
-    //下载管理员excel
-    adminExcel: () => {
-        return request("admin/administrator/execl", 'get', "")
+
+
+    //问题部分
+    answer: (data) => {
+        return request('/api/question/answer', 'post', data)
     },
-    //获取用户列表
-    userList: (data) => {
-        return request("admin/user", 'get', data)
+    deleteQuestion: (data) => {
+        return request('/api/question/deleteQuestion', 'delete', data)
     },
-    //设置为检察人员
-    persecuter: (data) => {
-        return request("admin/user/prosecutor", 'put', data)
+    getQuestionRecord: (data) => {
+        return request('/api/question/getQuestionRecord', 'get', data)
     },
-    //锁定账号
-    lock: (data) => {
-        return request("admin/user/lock", 'put', data)
+    getQuestionsInfo: (data) => {
+        return request('/api/question/getQuestionsInfo', 'get', data)
     },
-    //下载微信用户列表
-    userExcel: () => {
-        return request("admin/user/execl", 'get', "")
+    newQuestion: (data) => {
+        return request('/api/question/newQuestion', 'post', data)
     },
-    //获取出入记录
-    recordList: (data) => {
-        return request("admin/health_record", 'get', data)
+    updateStatus: (data) => {
+        return request('/api/question/updateStatus', 'post', data)
     },
-    //获取出入记录excel
-    recordExcel: () => {
-        return request("admin/health_record/execl", 'get', "")
-    }
 }

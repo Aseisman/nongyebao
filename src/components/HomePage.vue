@@ -15,28 +15,6 @@
         router
         unique-opened
       >
-        <!-- <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span slot="title">导航一</span>
-          </template>
-          <el-menu-item-group>
-            <span slot="title">分组一</span>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <span slot="title">选项4</span>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
-        </el-submenu>-->
-        <!-- 首页两个图： 住户人数 一个星期的出入人数（条形统计图） 健康人数比例图（圆形统计图） -->
-        <!-- 用户管理有：注册，列表，查看详情，修改账号，锁定账号 -->
-        <!-- 输入名字或者什么，查找当前用户的出入数据和健康数据 -->
-        <!-- 扫码获取用户信息，并记录当前健康状态 -->
         <el-menu-item
           v-for="(item,i) in navList"
           :key="i"
@@ -84,7 +62,7 @@
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
       brand: require("../assets/images/brand.png"),
       msg: "Welcome to Your Vue.js App",
@@ -93,7 +71,7 @@ export default {
       isCollapse: false,
       navList: [],
       title: "首页",
-      username: "管理员"
+      username: "管理员",
     };
   },
   methods: {
@@ -106,58 +84,47 @@ export default {
     changeTitle(name) {
       this.title = name;
     },
-    SignOut: function() {
+    SignOut: function () {
       //删除本地token，
       localStorage.clear();
       //跳到登录界面
       this.$router.push("/");
-    }
+    },
   },
   mounted() {
-    const userMesage = JSON.parse(localStorage.getItem("userMessage"));
-    console.log(userMesage);
-    if (userMesage.isSuper == 1) {
-      //功能显示
-      this.navList = [
-        { name: "/Home", navItem: "首页", icon: "el-icon-discount" },
-        { name: "/UserList", navItem: "用户管理", icon: "el-icon-service" },
-        { name: "Access", navItem: "出入统计", icon: "el-icon-receiving" },
-        { name: "/AdminList", navItem: "管理员管理", icon: "el-icon-user" },
-        { name: "/Password", navItem: "修改密码", icon: "el-icon-coin" }
-      ];
-    } else {
-      //功能显示
-      this.navList = [
-        { name: "/Home", navItem: "首页", icon: "el-icon-discount" },
-        { name: "/UserList", navItem: "用户管理", icon: "el-icon-service" },
-        { name: "Access", navItem: "出入统计", icon: "el-icon-receiving" },
-        { name: "/Password", navItem: "修改密码", icon: "el-icon-coin" }
-      ];
-    }
-    if (userMesage.username !== "") {
-      this.username = userMesage.username;
-    }
+    //管理员名称
+    const userMessage = JSON.parse(localStorage.getItem("userMessage"));
+    this.username=userMessage.nickName;
+    //功能显示
+    this.navList = [
+      { name: "/Home", navItem: "首页", icon: "el-icon-discount" },
+      { name: "/QuestionList", navItem: "问题管理", icon: "el-icon-service" },
+      // { name: "/UserList", navItem: "用户管理", icon: "el-icon-user" },
+      // { name: "Access", navItem: "专家管理", icon: "el-icon-receiving" },
+      // { name: "/AdminList", navItem: "气象站管理", icon: "el-icon-umbrella" },
+      { name: "/Message", navItem: "个人信息", icon: "el-icon-coin" },
+    ];
     //标题的显示
     switch (this.$route.name) {
-      case "UserList":
-        this.title = "用户管理";
+      case "Message":
+        this.title = "个人信息";
         break;
       case "Home":
         this.title = "首页";
         break;
-      case "Access":
-        this.title = "出入统计";
-        break;
-      case "RecordList":
-        this.title = "健康记录";
-        break;
-      case "AdminList":
-        this.title = "管理员管理";
-        break;
-      case "AdminAdd":
-        this.title = "管理员添加";
+      // case "Access":
+      //   this.title = "出入统计";
+      //   break;
+      // case "RecordList":
+      //   this.title = "健康记录";
+      //   break;
+      // case "AdminList":
+      //   this.title = "管理员管理";
+      //   break;
+      // case "AdminAdd":
+      //   this.title = "管理员添加";
     }
-  }
+  },
 };
 </script>
 

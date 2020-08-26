@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <!-- 总住户人数 -->
-    <!-- 今日进入小区人数 -->
-    <!-- 预警人员 -->
-    <div style="display:flex;justify-content: space-around;margin-top: 30px;">
+  <!-- <div> -->
+    <!-- <div style="display:flex;justify-content: space-around;margin-top: 30px;">
       <div style="width:30%;position:relative;">
         <img src="../assets/images/bg-img-1.png" alt style="width: 100%;" />
         <div style="position: absolute;top: 50px;left: 60px;">
@@ -25,18 +22,17 @@
           <div style="color: rgba(249,249,249,0.9);font-size: 30px;">{{homeData.atention}}</div>
         </div>
       </div>
-    </div>
-    <!-- <div>一周出入情况</div> -->
-    <div style="margin-top:50px;margin-left:24px;">
+    </div> -->
+    <!-- <div style="margin-top:50px;margin-left:24px;">
       <div
         style="width: 47%;text-align: center;border-radius: 24px;box-shadow: 0px 0px 10px rgb(67, 135, 199, 0.2);border: 1px dashed rgba(249,249,249,0.4);float:left;"
       >
         <div style="font-size: 25px;margin-top: 7px;">一周小区流动情况</div>
         <div id="myFirstChart" style="width:100%;height:309px;"></div>
       </div>
-    </div>
+    </div> -->
     <!-- 一周健康信息数据统计 -->
-    <div style="margin-top:50px;margin-left:24px;">
+    <!-- <div style="margin-top:50px;margin-left:24px;">
       <div
         style="width: 46%;text-align: center;border-radius: 24px;box-shadow: 0px 0px 10px rgb(67, 135, 199, 0.2);border: 1px dashed rgba(249,249,249,0.4);float:left;margin-left: 35px;"
       >
@@ -44,7 +40,8 @@
         <div id="mySecondChart" style="width:100%;height:309px;"></div>
       </div>
     </div>
-  </div>
+  </div> -->
+  <div>欢迎您！</div>
 </template>
 
 <script>
@@ -56,113 +53,10 @@ export default {
     };
   },
   mounted() {
-    var that = this;
-    this.$axios.home().then(res => {
-      console.log(res);
-      that.homeData = res.data;
-      var date = [];
-      var val1 = [];
-      for (let i in res.data.population) {
-        val1.push(res.data.population[i].val);
-        date.push(res.data.population[i].date);
-      }
-      this.getChart(date, val1, res.data.status);
-    });
   },
   updated() {
-    // var myFirstChart = echarts.init(document.getElementById("myFirstChart"));
-    // var mySecondChart = echarts.init(document.getElementById("mySecondChart"));
-    // myFirstChart.resize();
-    // mySecondChart.resize();
   },
   methods: {
-    getChart(date1, val1, val2) {
-      var myFirstChart = echarts.init(document.getElementById("myFirstChart"));
-      var mySecondChart = echarts.init(
-        document.getElementById("mySecondChart")
-      );
-      let option = {
-        color: ["#3398DB"],
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow"
-          }
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: "category",
-            // data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-            data: date1,
-            axisTick: {
-              alignWithLabel: true
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: "value"
-          }
-        ],
-        series: [
-          {
-            name: "人数",
-            type: "bar",
-            barWidth: "60%",
-            // encode:{x:0,y:1}
-            // data: [10, 23, 34, 64, 111, 23, 34, 22]
-            data: val1
-          }
-        ]
-      };
-      let option2 = {
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-          prient: "vertical",
-          left: "left",
-          data: ["体温正常", "体温预警", "已生病"]
-        },
-        series: [
-          {
-            name: "小区范围内",
-            type: "pie",
-            barWidth: "55%",
-            center: ["50%", "60%"],
-            data: [
-              { value: val2[0], name: "体温正常" },
-              { value: val2[1], name: "体温预警" },
-              { value: val2[2], name: "已生病" }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0,0,0,0.5)"
-              }
-            }
-          }
-        ]
-      };
-      myFirstChart.setOption(option);
-      window.addEventListener("resize", () => {
-        // console.log("开始resize");
-        myFirstChart.resize();
-      });
-      mySecondChart.setOption(option2);
-      window.addEventListener("resize", () => {
-        // console.log("开始resize");
-        mySecondChart.resize();
-      });
-    }
   }
 };
 </script>

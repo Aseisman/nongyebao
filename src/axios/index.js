@@ -1,10 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
-
 //Vue.prototype.GLOBAL = global_ //挂载到Vue实例上面
 const Axios = axios.create({
-    // baseURL: "/apis", // 因为我本地做了反向代理
-    // baseURL: "http://cio.lvdengtech.com",
+    baseURL: "/apis", // 因为我本地做了反向代理
     timeout: 10000,
     responseType: "json",
     withCredentials: true, // 是否允许带cookie这些
@@ -20,7 +18,7 @@ Axios.interceptors.request.use(
         const token = localStorage.getItem("token");
         //  }
         if (token) {
-            config.headers["token"] = token;
+            config.headers["Authorization"] = 'Bearer ' + token;
         }
         return config;
     },
@@ -44,7 +42,6 @@ Axios.interceptors.response.use(
     },
     error => {
         //404等问题可以在这里处理
-
         return Promise.reject(error);
     }
 );
