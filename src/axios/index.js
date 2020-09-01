@@ -2,7 +2,8 @@ import axios from 'axios'
 import qs from 'qs'
 //Vue.prototype.GLOBAL = global_ //挂载到Vue实例上面
 const Axios = axios.create({
-    baseURL: "/apis", // 因为我本地做了反向代理
+    // baseURL: "/apis", // 因为我本地做了反向代理
+    // baseURL: "http://129.28.152.92:8080",
     timeout: 10000,
     responseType: "json",
     withCredentials: true, // 是否允许带cookie这些

@@ -32,8 +32,8 @@
 export default {
   data() {
     return {
-      Account: "royalblue4169e1@163.com",
-      Password: "bbbb1111",
+      Account: "",
+      Password: "",
       tenData: "",
       logo: require("../assets/logo.png"),
       styleObject: {

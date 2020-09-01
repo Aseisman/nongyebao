@@ -14,6 +14,8 @@ Vue.use(VueRouter)
 const routes = [{
         path: '/',
         name: 'Login',
+        // component: () =>
+        //     import ('../components/Login.vue')
         component: Login
     },
     {
@@ -50,12 +52,14 @@ const routes = [{
     {
         path: "/forget",
         name: "forget",
-        component: forget,
+        component: () =>
+            import ('../components/forget.vue')
     },
     {
         path: "/register",
         name: "register",
-        component: register,
+        component: () =>
+            import ('../components/register.vue'),
     }
 ]
 
